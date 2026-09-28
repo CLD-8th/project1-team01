@@ -1,5 +1,9 @@
 # Git 규칙 (펩시미만잡)
 
+## push 스크립트
+
+git 명령어 치기 번거롭거나 익숙하지 않으면 `scripts/push.command`(Mac) / `scripts/push.bat`(Windows) 더블클릭 — 브랜치 생성부터 스타일 정리·컴파일 확인·commit·push·PR 생성까지 자동으로 해줌. 자세한 건 [scripts/README.md](../scripts/README.md).
+
 ## 브랜치
 
 - `main` + `feature/<번호>-<기능>` ([역할분담표](06_역할분담표.md) 번호 기준, 예: `feature/4-거래요청`)
