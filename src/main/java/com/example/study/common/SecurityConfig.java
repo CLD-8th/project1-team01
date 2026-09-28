@@ -38,6 +38,9 @@ public class SecurityConfig {
                     // 화면과 정적 자원은 공개.
                     .requestMatchers("/", "/*.html", "/css/**", "/js/**", "/img/**", "/favicon.ico")
                     .permitAll()
+                    // 헬스체크는 인증 없이 확인 가능해야 함(최소 동작본 게이트 기준).
+                    .requestMatchers("/actuator/health")
+                    .permitAll()
                     // 가입과 로그인은 토큰이 없는 상태에서 부름.
                     .requestMatchers(
                         HttpMethod.POST, "/api/members", "/api/auth/login", "/api/auth/reissue")
