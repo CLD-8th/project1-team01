@@ -5,10 +5,13 @@ import com.example.study.application.ApplicationStatus;
 import com.example.study.application.dto.AcceptedCount;
 import com.example.study.common.BusinessException;
 import com.example.study.common.ErrorCode;
-import com.example.study.member.Member;
 import com.example.study.member.MemberService;
 import com.example.study.study.dto.StudyDetailResponse;
 import com.example.study.study.dto.StudyListResponse;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,16 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 /**
  * 모집글 업무 계층.
  *
- * 소유 관계와 상태 전이를 여기서 판단함.
- * 값의 형식과 범위는 요청 형태에서 이미 걸러짐.
+ * <p>소유 관계와 상태 전이를 여기서 판단함. 값의 형식과 범위는 요청 형태에서 이미 걸러짐.
  */
 @Slf4j
 @Service
@@ -33,13 +30,13 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class StudyService {
 
-    private final StudyPostRepository studyPostRepository;
-    private final ApplicationRepository applicationRepository;
-    private final MemberService memberService;
+  private final StudyPostRepository studyPostRepository;
+  private final ApplicationRepository applicationRepository;
+  private final MemberService memberService;
 
-    @Transactional
-    public StudyDetailResponse create(String title, String content, int capacity,
-                                      LocalDate deadline, Long memberId) {
+  @Transactional
+  public StudyDetailResponse create(
+      String title, String content, int capacity, LocalDate deadline, Long memberId) {
     /*
      * TODO 21 · 모집글 등록
      *
@@ -51,16 +48,15 @@ public class StudyService {
      * 반환형태    StudyDetailResponse · TODO.md 응답 형태 참고
      * 동작결과    EP-03 · 201 과 Location 머리 · 상태는 RECRUITING
      */
-        throw new UnsupportedOperationException("TODO 21");
-    }
+    throw new UnsupportedOperationException("TODO 21");
+  }
 
-    /**
-     * 목록 조회.
-     *
-     * 수락 인원을 건마다 세면 조회 구문이 건수에 비례함.
-     * 식별자 묶음을 한 번에 세어 붙임.
-     */
-    public Page<StudyListResponse> findAll(String keyword, StudyStatus status, Pageable pageable) {
+  /**
+   * 목록 조회.
+   *
+   * <p>수락 인원을 건마다 세면 조회 구문이 건수에 비례함. 식별자 묶음을 한 번에 세어 붙임.
+   */
+  public Page<StudyListResponse> findAll(String keyword, StudyStatus status, Pageable pageable) {
     /*
      * TODO 11 · 모집글 목록 조회
      *
@@ -73,10 +69,10 @@ public class StudyService {
      * 반환형태    Page<StudyListResponse>
      * 동작결과    EP-01 · 목록이 열 건이어도 조회 구문은 둘
      */
-        throw new UnsupportedOperationException("TODO 11");
-    }
+    throw new UnsupportedOperationException("TODO 11");
+  }
 
-    public StudyDetailResponse findById(Long id) {
+  public StudyDetailResponse findById(Long id) {
     /*
      * TODO 22 · 모집글 상세 조회
      *
@@ -87,21 +83,19 @@ public class StudyService {
      * 반환형태    StudyDetailResponse
      * 동작결과    EP-02 · 200 과 상세 · 없는 번호는 404 NOT_FOUND
      */
-        throw new UnsupportedOperationException("TODO 22");
-    }
+    throw new UnsupportedOperationException("TODO 22");
+  }
 
-    /**
-     * 수정.
-     *
-     * 마감된 모집글은 수정하지 않음. 정원을 늘리면 자리가 있는데 신청이 막히고
-     * 마감일을 바꿔도 상태가 그대로라 의미가 없음.
-     *
-     * 정원은 현재 수락 인원보다 작게 바꿀 수 없음.
-     * 인원이 정원을 넘는 상태가 되며 되돌릴 방법이 없음.
-     */
-    @Transactional
-    public StudyDetailResponse update(Long id, String title, String content, int capacity,
-                                      LocalDate deadline, Long memberId) {
+  /**
+   * 수정.
+   *
+   * <p>마감된 모집글은 수정하지 않음. 정원을 늘리면 자리가 있는데 신청이 막히고 마감일을 바꿔도 상태가 그대로라 의미가 없음.
+   *
+   * <p>정원은 현재 수락 인원보다 작게 바꿀 수 없음. 인원이 정원을 넘는 상태가 되며 되돌릴 방법이 없음.
+   */
+  @Transactional
+  public StudyDetailResponse update(
+      Long id, String title, String content, int capacity, LocalDate deadline, Long memberId) {
     /*
      * TODO 23 · 모집글 수정
      *
@@ -118,11 +112,11 @@ public class StudyService {
      * 동작결과    EP-04 · 남의 글 403 FORBIDDEN · 마감된 글 400 STUDY_CLOSED
      *             정원 축소 400 CAPACITY_BELOW_ACCEPTED
      */
-        throw new UnsupportedOperationException("TODO 23");
-    }
+    throw new UnsupportedOperationException("TODO 23");
+  }
 
-    @Transactional
-    public void delete(Long id, Long memberId) {
+  @Transactional
+  public void delete(Long id, Long memberId) {
     /*
      * TODO 24 · 모집글 삭제
      *
@@ -133,16 +127,16 @@ public class StudyService {
      * 반환형태    없음
      * 동작결과    EP-05 · 204 · 남의 글은 403 FORBIDDEN
      */
-        throw new UnsupportedOperationException("TODO 24");
-    }
+    throw new UnsupportedOperationException("TODO 24");
+  }
 
-    /**
-     * 마감.
-     *
-     * 대기 상태의 신청은 그대로 둠. 모집자가 개별로 처리함.
-     */
-    @Transactional
-    public StudyDetailResponse close(Long id, Long memberId) {
+  /**
+   * 마감.
+   *
+   * <p>대기 상태의 신청은 그대로 둠. 모집자가 개별로 처리함.
+   */
+  @Transactional
+  public StudyDetailResponse close(Long id, Long memberId) {
     /*
      * TODO 25 · 모집 마감
      *
@@ -155,10 +149,10 @@ public class StudyService {
      * 반환형태    StudyDetailResponse
      * 동작결과    EP-06 · 상태가 CLOSED · 이미 마감이면 400 STUDY_CLOSED
      */
-        throw new UnsupportedOperationException("TODO 25");
-    }
+    throw new UnsupportedOperationException("TODO 25");
+  }
 
-    public List<StudyListResponse> findMine(Long memberId) {
+  public List<StudyListResponse> findMine(Long memberId) {
     /*
      * TODO 63 · 내 모집글 조회
      *
@@ -170,25 +164,28 @@ public class StudyService {
      * 반환형태    List<StudyListResponse>
      * 동작결과    EP-16 · 내가 등록한 것만 최신순으로 나옴
      */
-        throw new UnsupportedOperationException("TODO 63");
-    }
+    throw new UnsupportedOperationException("TODO 63");
+  }
 
-    public StudyPost getWithWriter(Long id) {
-        // 제공 · 담당 3 · 4 · 5 도 이 메서드를 씀.
-        return studyPostRepository.findWithWriterById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "모집글 부재"));
-    }
+  public StudyPost getWithWriter(Long id) {
+    // 제공 · 담당 3 · 4 · 5 도 이 메서드를 씀.
+    return studyPostRepository
+        .findWithWriterById(id)
+        .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "모집글 부재"));
+  }
 
-    private long countAccepted(Long studyPostId) {
-        return applicationRepository.countByStudyPostIdAndStatus(studyPostId, ApplicationStatus.ACCEPTED);
-    }
+  private long countAccepted(Long studyPostId) {
+    return applicationRepository.countByStudyPostIdAndStatus(
+        studyPostId, ApplicationStatus.ACCEPTED);
+  }
 
-    private Map<Long, Long> acceptedCounts(List<Long> ids) {
-        if (ids.isEmpty()) {
-            return Map.of();
-        }
-        return applicationRepository.countAcceptedByStudyPostIds(ids, ApplicationStatus.ACCEPTED)
-                .stream()
-                .collect(Collectors.toMap(AcceptedCount::studyPostId, AcceptedCount::count));
+  private Map<Long, Long> acceptedCounts(List<Long> ids) {
+    if (ids.isEmpty()) {
+      return Map.of();
     }
+    return applicationRepository
+        .countAcceptedByStudyPostIds(ids, ApplicationStatus.ACCEPTED)
+        .stream()
+        .collect(Collectors.toMap(AcceptedCount::studyPostId, AcceptedCount::count));
+  }
 }

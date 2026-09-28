@@ -24,6 +24,11 @@
 - `docs/` 안의 같은 파일(API목록·ERD 등)을 여러 명이 동시에 고칠 것 같으면 미리 채팅으로 얘기하고 순서대로 push
 - 남이 먼저 push했으면 pull 받고 이어서 수정(덮어쓰기 금지)
 
+## 코드 스타일
+
+- Google Java Format(Spotless 플러그인)로 통일 — 사람마다 IDE 설정 달라서 생기는 줄바꿈·들여쓰기 충돌 방지
+- 커밋 전 `./gradlew spotlessApply`로 자동 정렬, PR에서 `spotlessCheck`가 CI로 확인함
+
 ## 비밀 정보
 
 - `.env`는 `.gitignore` 처리, `.env.example`만 커밋

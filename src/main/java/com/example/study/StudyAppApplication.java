@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties(JwtProperties.class)
 public class StudyAppApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(StudyAppApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(StudyAppApplication.class, args);
+  }
 }
