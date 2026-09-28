@@ -1,6 +1,8 @@
 services:
   db:
     image: mysql:8.4
+    ports:
+      - "3307:3306" # IDE에서 앱을 직접 실행할 때 씀(localhost:3307). 로컬에 다른 MySQL(3306)이 떠있을 수 있어 다르게 매핑.
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -16,6 +18,8 @@ services:
 
   cache:
     image: redis:7.4
+    ports:
+      - "6380:6379" # IDE에서 앱을 직접 실행할 때 씀(localhost:6380)
     command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
     healthcheck:
       test: ["CMD-SHELL", "redis-cli -a $${REDIS_PASSWORD} ping | grep PONG"]
