@@ -19,10 +19,29 @@
 
 ## 문서
 
+**정의**
 - [주제 제출](docs/00_주제제출.md)
 - [도메인·기능 정의서](docs/01_도메인기능정의서.md)
+
+**설계**
 - [ERD](docs/02_ERD.md)
 - [URL/API 목록](docs/03_API목록.md)
 - [Redis 키 설계](docs/04_Redis키설계.md)
-- [AWS 아키텍처 설계](docs/05_AWS설계/)
-- [Team Log](docs/team-log.md)
+
+**AWS 아키텍처 설계**
+- [전체 폴더](docs/05_AWS설계/)
+- [역할 기반 매핑](docs/05_AWS설계/01_역할매핑.md) · [단계별 진화](docs/05_AWS설계/02_단계별진화.md) · [VPC 설계](docs/05_AWS설계/03_VPC설계.md) · [보안 그룹](docs/05_AWS설계/04_보안그룹.md) · [용량 산정](docs/05_AWS설계/05_용량산정.md) · [비용 산정](docs/05_AWS설계/06_비용산정.md) · [ADR](docs/05_AWS설계/07_ADR.md)
+
+**팀 운영**
+- [역할 분담표](docs/06_역할분담표.md)
+- [Git 규칙](docs/07_git규칙.md)
+- [Team Log](docs/08_team-log.md)
+- [트러블슈팅](docs/09_트러블슈팅.md)
+- [회고](docs/10_회고.md)
+
+**제출 자료**
+- [발표 자료](docs/11_발표자료/)
+- [동작 증빙](docs/12_동작증빙/)
+
+**참고**
+- [스켈레톤 안내](SKELETON.md), [스켈레톤 API 문서](docs/skeleton/api.md), [스켈레톤 기능 문서](docs/skeleton/functions.md)
