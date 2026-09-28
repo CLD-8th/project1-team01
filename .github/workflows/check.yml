@@ -1,0 +1,18 @@
+name: PR 검사
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 커밋 메시지 확인
+        run: |
+          MSGS=$(git log --format=%B origin/${{ github.base_ref }}..HEAD)
+          echo "$MSGS" | grep -iE 'claude|anthropic|co-authored-by|gpt|chatgpt|openai|copilot|gemini|bard' > /dev/null && exit 1 || exit 0
