@@ -3,12 +3,12 @@ server:
 
 spring:
   application:
-    name: study-app
+    name: hunchaekbang
 
   datasource:
-    url: jdbc:mysql://localhost:3306/study_app?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: study
-    password: Study!1234
+    url: jdbc:mysql://localhost:3307/hunchaekbang?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: hunchaekbang
+    password: hunchaekbang1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -20,9 +20,15 @@ spring:
       hibernate:
         format_sql: true
 
+  data:
+    redis:
+      host: localhost
+      port: 6380
+      password: redis1234
+
 study:
   jwt:
-    secret: study-app-local-secret-key-for-jwt-signing-2026
+    secret: hunchaekbang-local-dev-jwt-secret-key-32bytes-minimum
     access-expire-minutes: 30
     refresh-expire-days: 7
 
