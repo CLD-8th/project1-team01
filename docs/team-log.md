@@ -13,3 +13,5 @@
 - 거래 제안 로직 확정: 가격(기본 0)·책 사진(업로드, 선택) 조합으로 교환요청/웃돈제안/나눔요청/구매제안 4가지 자동 결정. Figma·ERD 반영.
 - 도서 등록 화면의 "거래 방식" 선택을 "받고 싶은 조건"(참고용, 강제 아님)으로 변경 — `book.accepts_price/accepts_swap/accepts_giveaway`.
 - 도메인·기능 정의서, ERD, URL/API 목록(11개), Redis 키 설계(랭킹·동시 수락 방지 락) 작성해 repo에 push(PR #1~#10). 팀 Notion 내용과 교차 확인해 일치시킴.
+- repo 정리: 테스트 파일 삭제, README를 이 repo 기준으로 재작성, main 브랜치 보호(PR 필수·CI 통과 필수, approve는 불필요·본인 merge 가능) 설정, 머지된 브랜치 정리.
+- `study-app-skeleton` 병합(PR #14) — 인증·회원·공통설정·Dockerfile 재사용 예정, `study`/`application`/`review` 도메인 코드는 `book`/`exchange_request`로 교체 필요. `build.gradle`에 Redis 의존성 없어서 구현 시작할 때 추가해야 함.
