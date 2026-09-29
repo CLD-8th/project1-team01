@@ -1,5 +1,7 @@
 package com.example.study.request.dto;
 
+import jakarta.validation.constraints.Min;
+
 /**
  * 거래 요청 생성(4번 API) 요청 본문.
  *
@@ -7,4 +9,4 @@ package com.example.study.request.dto;
  * 별도 type 필드 없음.
  */
 public record ExchangeRequestCreateRequest(
-    int offeredPrice, String offeredPhotoUrl, String message) {}
+  @Min(0) int offeredPrice, String offeredPhotoUrl, String message) {}
