@@ -1,6 +1,6 @@
 # URL/API 목록 (펩시미만잡)
 
-> 팀 Notion(URL/API 표) 기준.
+> 팀 Notion(URL/API 표) 기준. 실제 curl 호출 예시는 [17_API요청예시.md](17_API요청예시.md) 참고.
 
 | # | 기능 | Method | URL | 인증 | 비고 |
 |---|---|---|---|---|---|

@@ -48,6 +48,7 @@ docker compose up -d --build
 **설계**
 - [ERD](docs/02_ERD.md)
 - [URL/API 목록](docs/03_API목록.md)
+- [API 요청 예시(curl)](docs/17_API요청예시.md)
 - [Redis 키 설계](docs/04_Redis키설계.md)
 
 **AWS 아키텍처 설계**
