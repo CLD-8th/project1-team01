@@ -3,6 +3,7 @@ package com.example.study.book;
 import com.example.study.book.dto.BookCreateRequest;
 import com.example.study.book.dto.BookDetailResponse;
 import com.example.study.book.dto.BookListResponse;
+import com.example.study.book.dto.ImageUploadResponse;
 import com.example.study.common.PageResponse;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/books")
@@ -46,5 +48,11 @@ public class BookController {
       @Valid @RequestBody BookCreateRequest request, @AuthenticationPrincipal Long memberId) {
     BookDetailResponse response = bookService.createBook(request, memberId);
     return ResponseEntity.created(URI.create("/api/books/" + response.id())).body(response);
+  }
+
+  // 사진 업로드
+  @PostMapping("/images")
+  public ResponseEntity<ImageUploadResponse> uploadImage(@RequestParam MultipartFile file) {
+    return ResponseEntity.ok(bookService.uploadImage(file));
   }
 }

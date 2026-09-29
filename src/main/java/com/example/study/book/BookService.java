@@ -3,6 +3,7 @@ package com.example.study.book;
 import com.example.study.book.dto.BookCreateRequest;
 import com.example.study.book.dto.BookDetailResponse;
 import com.example.study.book.dto.BookListResponse;
+import com.example.study.book.dto.ImageUploadResponse;
 import com.example.study.common.BusinessException;
 import com.example.study.common.ErrorCode;
 import com.example.study.member.Member;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class BookService {
 
   private final BookRepository bookRepository;
   private final MemberService memberService;
+  private final FileStorageService fileStorageService;
 
   // 목록 조회
   public Page<BookListResponse> getBooks(String keyword, String status, Pageable pageable) {
@@ -66,5 +69,11 @@ public class BookService {
             request.acceptsGiveaway());
 
     return BookDetailResponse.from(bookRepository.save(book));
+  }
+
+  // 사진 업로드
+  public ImageUploadResponse uploadImage(MultipartFile file) {
+    String url = fileStorageService.store(file);
+    return new ImageUploadResponse(url);
   }
 }
