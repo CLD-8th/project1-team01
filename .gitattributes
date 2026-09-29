@@ -1,0 +1,16 @@
+# 줄바꿈 강제 지정. 이게 없으면 Windows에서 core.autocrlf=true일 때 gradlew(셸 스크립트)가
+# CRLF로 변환돼서 셔뱅(#!/bin/sh)이 깨지고 도커 빌드에서 "gradlew: not found"로 실패함.
+* text=auto eol=lf
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+gradlew text eol=lf
+gradlew.bat text eol=crlf
+
+*.jar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.svg binary
