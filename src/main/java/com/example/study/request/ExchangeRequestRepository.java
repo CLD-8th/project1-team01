@@ -15,10 +15,10 @@ public interface ExchangeRequestRepository extends JpaRepository<ExchangeRequest
   List<ExchangeRequest> findByBookIdAndStatus(Long bookId, ExchangeRequestStatus status);
 
   /** 받은 요청 목록(6번 API), 등록자 기준, 최신순. */
-  @EntityGraph(attributePaths = {"book", "requester"})
+  @EntityGraph(attributePaths = {"book", "book.owner", "requester"})
   List<ExchangeRequest> findByBookOwnerIdOrderByCreatedAtDesc(Long ownerId);
 
-  /** 보낸 요청 목록(7번 API), 요청자 기준, 최신순. */
-  @EntityGraph(attributePaths = {"book", "requester"})
+  /** 보낸 요청 목록(7번 API), 요청자 기준, 최신순. 응답의 "판매자" 표시를 위해 책 등록자까지 함께 가져옴. */
+  @EntityGraph(attributePaths = {"book", "book.owner", "requester"})
   List<ExchangeRequest> findByRequesterIdOrderByCreatedAtDesc(Long requesterId);
 }

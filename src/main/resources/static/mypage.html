@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지 · 헌책방</title>
+    <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="header">
+    <div class="header-inner">
+        <a class="logo" href="/index.html">
+            <img src="/img/logo.svg" alt="">
+            <span>헌책방</span>
+        </a>
+        <div class="header-menu" id="header-menu"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="profile-head">
+        <div class="avatar"></div>
+        <div>
+            <div class="nickname-lg" id="profile-nickname"></div>
+            <div class="profile-stat" id="profile-stat">불러오는 중...</div>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="active" data-tab="books">등록한 책</button>
+        <button data-tab="received">받은 요청</button>
+        <button data-tab="sent">보낸 요청</button>
+    </div>
+
+    <div id="list"></div>
+    <div class="empty hidden" id="empty"></div>
+</div>
+<div class="footer">&copy; 펩시미만잡 2026 헌책방</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/mypage.js"></script>
+</body>
+</html>

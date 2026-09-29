@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>거래 제안하기 · 헌책방</title>
+    <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="header">
+    <div class="header-inner">
+        <a class="logo" href="/index.html">
+            <img src="/img/logo.svg" alt="">
+            <span>헌책방</span>
+        </a>
+        <div class="header-menu" id="header-menu"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="request-hero">
+            <img class="row-thumb" id="target-cover" src="/img/logo.svg" alt="">
+            <div>
+                <span class="hint">이 책에 대한 거래를 제안합니다</span>
+                <div class="target-title" id="target-title"></div>
+                <div class="hint" id="target-owner"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card narrow" style="margin: 0 auto;">
+        <h1 class="page-title">거래 제안하기</h1>
+
+        <div id="offer-photo-picker"></div>
+        <p class="hint" style="margin: -8px 0 14px;">선택 안 하면 나눔·구매 제안이 돼요</p>
+
+        <div class="field">
+            <div class="field-head"><label for="offeredPrice">제안 가격</label><span class="hint">0원(기본값) — 책만 보내려면 0원</span></div>
+            <input type="number" id="offeredPrice" value="0" min="0">
+        </div>
+
+        <div class="combo-box">
+            <div class="combo-title">가격 · 책 사진 조합으로 결정돼요</div>
+            <div>가격 0원 + 책 사진 있음 → 교환 요청</div>
+            <div>가격 1원 이상 + 책 사진 있음 → 웃돈 주고 교환 제안</div>
+            <div>가격 0원 + 책 사진 없음 → 나눔 요청</div>
+            <div>가격 1원 이상 + 책 사진 없음 → 구매 제안</div>
+            <div id="combo-current" style="margin-top:8px; font-weight:700; color:#2f3f9e;"></div>
+        </div>
+
+        <div class="field">
+            <div class="field-head"><label for="message">메시지</label><span class="hint">선택</span></div>
+            <textarea id="message" placeholder="판매자에게 전달할 메시지를 남겨보세요"></textarea>
+        </div>
+
+        <div class="field-error hidden" id="request-error"></div>
+
+        <div class="actions">
+            <button class="primary" id="submit-request" style="width: 100%;">제안 보내기</button>
+        </div>
+    </div>
+</div>
+<div class="footer">&copy; 펩시미만잡 2026 헌책방</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/photo-picker.js"></script>
+<script src="/js/book-request.js"></script>
+</body>
+</html>

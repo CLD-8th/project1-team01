@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>책 등록 · 헌책방</title>
+    <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="header">
+    <div class="header-inner">
+        <a class="logo" href="/index.html">
+            <img src="/img/logo.svg" alt="">
+            <span>헌책방</span>
+        </a>
+        <div class="header-menu" id="header-menu"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card narrow" style="margin: 40px auto;">
+        <h1 class="page-title">책 등록</h1>
+
+        <div id="cover-picker"></div>
+
+        <div class="field">
+            <div class="field-head"><label for="title">제목</label></div>
+            <input type="text" id="title" placeholder="책 제목을 입력하세요" maxlength="50">
+            <div class="field-error hidden" id="title-error"></div>
+        </div>
+
+        <div class="field">
+            <div class="field-head"><label for="author">저자</label><span class="hint">비워두면 "익명"으로 등록돼요</span></div>
+            <input type="text" id="author" placeholder="저자명을 입력하세요" maxlength="20">
+            <div class="field-error hidden" id="author-error"></div>
+        </div>
+
+        <div class="field">
+            <div class="field-head"><label for="description">상태 설명</label></div>
+            <textarea id="description" placeholder="책 상태를 설명해주세요" maxlength="1000"></textarea>
+            <div class="field-error hidden" id="description-error"></div>
+        </div>
+
+        <div class="field">
+            <div class="field-head"><label>받고 싶은 조건</label><span class="hint">선택, 참고용 — 강제 제한 아님</span></div>
+            <div class="checkbox-row">
+                <button type="button" data-condition="acceptsPrice">가격 제안 환영</button>
+                <button type="button" data-condition="acceptsSwap">교환 제안 환영</button>
+                <button type="button" data-condition="acceptsGiveaway">나눔 가능</button>
+            </div>
+        </div>
+
+        <div class="field-error hidden" id="form-error"></div>
+
+        <div class="actions">
+            <button class="primary" id="submit" style="width: 100%;">등록하기</button>
+        </div>
+    </div>
+</div>
+<div class="footer">&copy; 펩시미만잡 2026 헌책방</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/photo-picker.js"></script>
+<script src="/js/book-form.js"></script>
+</body>
+</html>
