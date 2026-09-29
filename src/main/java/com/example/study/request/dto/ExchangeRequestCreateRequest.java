@@ -9,4 +9,4 @@ import jakarta.validation.constraints.Min;
  * 별도 type 필드 없음.
  */
 public record ExchangeRequestCreateRequest(
-  @Min(0) int offeredPrice, String offeredPhotoUrl, String message) {}
+    @Min(0) int offeredPrice, String offeredPhotoUrl, String message) {}

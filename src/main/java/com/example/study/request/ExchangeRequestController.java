@@ -32,18 +32,13 @@ public class ExchangeRequestController {
 
   // TODO(문병현) 8번 · POST /api/requests/{requestId}/accept
   @PostMapping("/requests/{requestId}/accept")
-  public void accept(
-    @PathVariable Long requestId,
-    @AuthenticationPrincipal Long memberId) {
+  public void accept(@PathVariable Long requestId, @AuthenticationPrincipal Long memberId) {
     exchangeRequestService.accept(requestId, memberId);
   }
 
-
   // TODO(문병현) 9번 · POST /api/requests/{requestId}/reject
   @PostMapping("/requests/{requestId}/reject")
-  public void reject(
-    @PathVariable Long requestId,
-    @AuthenticationPrincipal Long memberId) {
+  public void reject(@PathVariable Long requestId, @AuthenticationPrincipal Long memberId) {
     exchangeRequestService.reject(requestId, memberId);
   }
 }
