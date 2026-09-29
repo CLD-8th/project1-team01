@@ -70,10 +70,32 @@ async function request(method, url, body) {
     return data;
 }
 
+/** 파일 업로드. JSON이 아니라 폼데이터라 request()와 헤더 처리가 달라 따로 둠. */
+async function uploadFile(url, file) {
+    const headers = {};
+    if (auth.loggedIn) {
+        headers['Authorization'] = 'Bearer ' + auth.token;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(url, { method: 'POST', headers, body: formData });
+
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : null;
+
+    if (!response.ok) {
+        throw new ApiError(data || { status: response.status, message: '업로드에 실패했습니다' });
+    }
+    return data;
+}
+
 const api = {
     get: (url) => request('GET', url),
     post: (url, body) => request('POST', url, body),
     put: (url, body) => request('PUT', url, body),
     patch: (url, body) => request('PATCH', url, body),
-    del: (url) => request('DELETE', url)
+    del: (url) => request('DELETE', url),
+    upload: (url, file) => uploadFile(url, file)
 };
