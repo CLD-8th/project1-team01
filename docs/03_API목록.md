@@ -13,5 +13,5 @@
 | 7 | 마이페이지(보낸 요청) | GET | `/api/mypage/requests/sent` | O | |
 | 8 | 요청 수락 | POST | `/api/requests/{requestId}/accept` | O | Redis 락(중복 수락 방지) |
 | 9 | 요청 거절 | POST | `/api/requests/{requestId}/reject` | O | |
-| 10 | 사진 업로드 | POST | `/api/books/images` | O | S3 — URL만 반환받아 등록·요청 본문에 사용 |
+| 10 | 사진 업로드 | POST | `/api/books/images` | O | 로컬 디스크(`uploads/`) 저장, jpg·jpeg·png·webp만 허용, 5MB 이하 — URL만 반환받아 등록·요청 본문에 사용. AWS 단계에서 S3 전환 검토 |
 | 11 | 인기 도서 랭킹 TOP 10 | GET | `/api/books/ranking` | X | Redis Sorted Set |
