@@ -41,12 +41,14 @@ public class BookService {
     }
   }
 
-  // 상세 조회
+  // 상세 조회. 조회수는 인기 랭킹 가중치에 쓰여서(11번 API) 쓰기가 필요 — 클래스 기본 readOnly를 여기서만 덮어씀.
+  @Transactional
   public BookDetailResponse getBook(Long bookId) {
     Book book =
         bookRepository
             .findWithOwnerById(bookId)
             .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "책 부재"));
+    book.increaseViewCount();
     return BookDetailResponse.from(book);
   }
 
