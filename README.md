@@ -19,6 +19,18 @@ docker compose up -d --build
 
 기동 후 `http://localhost:8090/index.html` 접속, `curl http://localhost:8090/actuator/health`로 상태 확인(`{"status":"UP"}`). 자세한 확인 절차·트러블슈팅은 [컨테이너화 재현 확인 가이드](docs/16_컨테이너확인가이드.md) 참고.
 
+화면 대신 API로 바로 찔러보고 싶으면:
+
+```bash
+curl -X POST http://localhost:8090/api/members -H "Content-Type: application/json" \
+  -d '{"email":"owner@example.com","password":"pass1234","nickname":"판매자"}'
+
+curl -X POST http://localhost:8090/api/auth/login -H "Content-Type: application/json" \
+  -d '{"email":"owner@example.com","password":"pass1234"}'   # accessToken 확인
+```
+
+나머지 API(도서 등록·거래 요청·수락 등) curl 예시는 [API 요청 예시](docs/17_API요청예시.md) 참고.
+
 ## 주요 기능
 
 - 도서 등록·목록·상세 조회(검색·상태 필터)
