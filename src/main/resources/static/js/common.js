@@ -5,12 +5,11 @@
  */
 
 const STATUS_LABEL = {
-    RECRUITING: '모집 중',
-    CLOSED: '마감',
+    TRADING: '거래 중',
+    COMPLETED: '거래 완료',
     PENDING: '대기',
     ACCEPTED: '수락됨',
-    REJECTED: '거절됨',
-    CANCELED: '취소함'
+    REJECTED: '거절됨'
 };
 
 function badge(status) {
@@ -35,15 +34,23 @@ function escapeHtml(value) {
         .replaceAll('>', '&gt;');
 }
 
-/** 머리 영역. 로그인 전후에 보이는 것이 다름. */
+/**
+ * 머리 영역. 화면 설계서 기준 "게시판 / 책 등록 / 마이페이지" 내비게이션은 로그인 여부와 무관하게 항상 보이고(책 등록·마이페이지는
+ * 로그인 없이 누르면 각 화면에서 로그인으로 돌려보냄), 그 뒤에 로그인 상태에 따른 영역만 다르게 붙임.
+ */
 function renderHeader() {
     const menu = document.getElementById('header-menu');
     if (!menu) return;
 
+    const nav =
+        '<a href="/index.html">게시판</a>' +
+        '<a href="/book-form.html">책 등록</a>' +
+        '<a href="/mypage.html">마이페이지</a>';
+
     if (auth.loggedIn) {
         menu.innerHTML =
+            nav +
             '<span class="nickname">' + escapeHtml(auth.nickname) + '</span>' +
-            '<a href="/mypage.html">마이페이지</a>' +
             '<a href="#" id="logout">로그아웃</a>';
         document.getElementById('logout').addEventListener('click', async (event) => {
             event.preventDefault();
@@ -56,9 +63,7 @@ function renderHeader() {
             location.href = '/index.html';
         });
     } else {
-        menu.innerHTML =
-            '<a href="/login.html">로그인</a>' +
-            '<a href="/signup.html">가입</a>';
+        menu.innerHTML = nav + '<a href="/login.html">로그인</a><a href="/signup.html">가입</a>';
     }
 }
 

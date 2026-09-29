@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 상세 · 헌책방</title>
+    <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="header">
+    <div class="header-inner">
+        <a class="logo" href="/index.html">
+            <img src="/img/logo.svg" alt="">
+            <span>헌책방</span>
+        </a>
+        <div class="header-menu" id="header-menu"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card" id="detail-card">
+        <div class="detail-head">
+            <img class="book-cover" id="cover" src="/img/logo.svg" alt="">
+            <div class="detail-body">
+                <h1 class="page-title" id="title" style="margin-bottom: 6px;"></h1>
+                <div id="badge-slot"></div>
+                <div class="detail-owner" id="owner"></div>
+
+                <div class="detail-desc-box">
+                    <span class="hint">상태 설명</span>
+                    <p id="description"></p>
+                </div>
+
+                <div class="detail-rank-hint hidden" id="rank-hint">🔥 <span id="rank-hint-text"></span></div>
+
+                <div class="detail-actions" id="action-buttons">
+                    <button class="primary" id="offer-price">가격 제안하기</button>
+                    <button class="primary" id="offer-swap">책 교환 제안하기</button>
+                </div>
+
+                <div class="alert alert-error hidden" id="own-book-hint">본인이 등록한 책이에요. 거래 요청은 다른 사람만 보낼 수 있어요.</div>
+                <div class="alert hidden" id="login-hint" style="background:#fff8ec; color:#8a6116;">
+                    거래를 요청하려면 <a href="/login.html">로그인</a>이 필요해요.
+                </div>
+                <div class="alert alert-error hidden" id="not-trading-hint">이미 거래가 끝난 책이에요.</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">&copy; 펩시미만잡 2026 헌책방</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/book-detail.js"></script>
+</body>
+</html>
