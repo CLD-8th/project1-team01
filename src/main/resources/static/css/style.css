@@ -286,6 +286,7 @@ button.danger { border-color: #e5b5b1; color: #c0433c; }
     padding: 16px;
 }
 .drop-zone:hover, .drop-zone.dragover { border-color: #4f6ef0; background: #eef2ff; }
+.drop-zone.uploading { opacity: 0.6; cursor: wait; pointer-events: none; }
 .drop-zone .drop-label { font-size: 13px; font-weight: 700; color: #4f6ef0; }
 .drop-zone .drop-hint { font-size: 11px; color: #8b949e; }
 .drop-zone.has-preview { padding: 10px; }

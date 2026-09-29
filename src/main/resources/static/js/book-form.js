@@ -19,11 +19,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const isActive = (name) =>
             document.querySelector('[data-condition="' + name + '"]').classList.contains('active');
 
+        const coverImageUrl = getPhotoUrl('coverImageUrl');
+        if (coverImageUrl === '') {
+            const label = document.getElementById('coverImageUrl-error');
+            label.textContent = '사진을 선택해주세요';
+            label.classList.remove('hidden');
+            return;
+        }
+
         try {
             const book = await api.post('/api/books', {
                 title: document.getElementById('title').value.trim(),
                 author: document.getElementById('author').value.trim() || null,
-                coverImageUrl: getPhotoUrl('coverImageUrl'),
+                coverImageUrl: coverImageUrl,
                 description: document.getElementById('description').value.trim(),
                 acceptsPrice: isActive('acceptsPrice'),
                 acceptsSwap: isActive('acceptsSwap'),
