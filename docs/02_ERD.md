@@ -1,6 +1,6 @@
 # ERD (펩시미만잡)
 
-> 초안. 스켈레톤 병합하면서 실제 컬럼명·타입은 조정될 수 있음. 수정은 아래 mermaid 코드를 바로 고치면 됨(https://mermaid.live 에서 미리보기 가능, GitHub에서도 자동 렌더링).
+> `Book`·`ExchangeRequest` 엔티티로 구현 완료(2026-09-29). 컬럼 추가되면 이 문서도 같이 수정 — mermaid 코드 바로 고치면 됨(https://mermaid.live 에서 미리보기 가능, GitHub에서도 자동 렌더링).
 
 ## 참고
 
@@ -37,11 +37,13 @@ erDiagram
         varchar title
         varchar author
         varchar cover_image_url
-        varchar status "거래중, 거래완료"
+        text description "상태 설명"
+        varchar status "TRADING(거래중), COMPLETED(거래완료)"
         boolean accepts_price "가격 제안 환영 (참고용)"
         boolean accepts_swap "교환 제안 환영 (참고용)"
         boolean accepts_giveaway "나눔 가능 (참고용)"
         datetime created_at
+        datetime updated_at
     }
 
     EXCHANGE_REQUEST {
@@ -50,7 +52,9 @@ erDiagram
         bigint requester_id FK "요청자"
         int offered_price "기본 0, 웃돈·구매 제안일 때 1원 이상"
         varchar offered_photo_url "업로드한 책 사진, nullable (FK 아님)"
-        varchar status "요청, 거절, 수락"
+        varchar message "메시지, nullable"
+        varchar status "PENDING(요청), ACCEPTED(수락), REJECTED(거절)"
         datetime created_at
+        datetime processed_at "수락·거절 처리 시각, nullable"
     }
 ```
