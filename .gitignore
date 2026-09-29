@@ -21,3 +21,6 @@ out/
 
 ### macOS ###
 .DS_Store
+
+### 이미지 추가 방지 ###
+/uploads/

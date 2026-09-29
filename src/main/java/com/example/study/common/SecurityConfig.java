@@ -38,6 +38,9 @@ public class SecurityConfig {
                     // 화면과 정적 자원은 공개.
                     .requestMatchers("/", "/*.html", "/css/**", "/js/**", "/img/**", "/favicon.ico")
                     .permitAll()
+                    // 업로드된 이미지는 로그인 안 해도 볼 수 있어야 함.
+                    .requestMatchers("/uploads/**")
+                    .permitAll()
                     // 헬스체크는 인증 없이 확인 가능해야 함(최소 동작본 게이트 기준).
                     .requestMatchers("/actuator/health")
                     .permitAll()
