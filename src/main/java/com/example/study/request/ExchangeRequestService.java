@@ -8,6 +8,8 @@ import com.example.study.member.Member;
 import com.example.study.member.MemberService;
 import com.example.study.request.dto.ExchangeRequestCreateRequest;
 import com.example.study.request.dto.ExchangeRequestResponse;
+import java.time.Duration;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -64,6 +66,61 @@ public class ExchangeRequestService {
 
   // TODO(문병현) 8번 · 요청 수락 — book:{bookId}:lock 락 잡고 accept() → book.complete() →
   // findByBookIdAndStatus(bookId, PENDING) 나머지 자동 거절. 14_기능구현가이드.md 참고.
+  @Transactional
+  public void accept(Long requestId, Long memberId) {
+    ExchangeRequest exchangeRequest =
+        exchangeRequestRepository
+            .findWithBookById(requestId)
+            .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "요청 부재"));
+
+    Book book = exchangeRequest.getBook();
+
+    if (!book.isOwnedBy(memberId)) {
+      throw new BusinessException(ErrorCode.FORBIDDEN);
+    }
+    if (!exchangeRequest.isPending()) {
+      throw new BusinessException(ErrorCode.ALREADY_PROCESSED);
+    }
+
+    String lockKey = "book:" + book.getId() + ":lock";
+    Boolean acquired =
+        redisTemplate
+            .opsForValue()
+            .setIfAbsent(lockKey, String.valueOf(requestId), Duration.ofSeconds(5));
+
+    if (!Boolean.TRUE.equals(acquired)) {
+      throw new BusinessException(ErrorCode.LOCK_CONFLICT);
+    }
+
+    exchangeRequest.accept();
+    book.complete();
+
+    List<ExchangeRequest> pendingRequests =
+        exchangeRequestRepository.findByBookIdAndStatus(
+            book.getId(), ExchangeRequestStatus.PENDING);
+
+    for (ExchangeRequest other : pendingRequests) {
+      if (!other.getId().equals(requestId)) {
+        other.reject();
+      }
+    }
+  }
 
   // TODO(문병현) 9번 · 요청 거절 — 락 필요 없음. isPending() 확인 후 reject()만.
+  @Transactional
+  public void reject(Long requestId, Long memberId) {
+    ExchangeRequest exchangeRequest =
+        exchangeRequestRepository
+            .findWithBookById(requestId)
+            .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "요청 부재"));
+
+    if (!exchangeRequest.getBook().isOwnedBy(memberId)) {
+      throw new BusinessException(ErrorCode.FORBIDDEN);
+    }
+    if (!exchangeRequest.isPending()) {
+      throw new BusinessException(ErrorCode.ALREADY_PROCESSED);
+    }
+
+    exchangeRequest.reject();
+  }
 }
