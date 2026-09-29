@@ -1,9 +1,7 @@
 package com.example.study.member;
 
-import com.example.study.application.ApplicationService;
 import com.example.study.member.dto.MemberRequest;
 import com.example.study.member.dto.MemberResponse;
-import com.example.study.study.StudyService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
   private final MemberService memberService;
-  private final StudyService studyService;
-  private final ApplicationService applicationService;
 
   @PostMapping
   public ResponseEntity<MemberResponse> join(@Valid @RequestBody MemberRequest request) {
@@ -42,15 +38,8 @@ public class MemberController {
     return memberService.findById(id);
   }
 
-  /*
-   * TODO 65 · 내 자료 주소 셋
-   *
-   * 기능        GET /api/members/me · /me/studies · /me/applications 를 만듦
-   *             식별자를 받지 않고 토큰에서 확인함 · 받으면 남의 자료를 볼 수 있음
-   * 활용메소드  MemberService.findById()             제공됨
-   *             StudyService.findMine()             TODO 63 · 같은 담당
-   *             ApplicationService.findMine()       TODO 64 · 같은 담당
-   * 반환형태    MemberResponse · List<StudyListResponse> · List<ApplicationResponse>
-   * 동작결과    EP-15 · EP-16 · EP-17 · 토큰이 없으면 401 UNAUTHORIZED
-   */
+  // 마이페이지(등록한 책·받은 요청·보낸 요청)는 여기가 아니라 /api/mypage/* 에서 처리함(03_API목록.md 5~7번,
+  // 담당: 김시웅). BookRepository.findByOwnerIdOrderByCreatedAtDesc(),
+  // ExchangeRequestRepository.findByBookOwnerIdOrderByCreatedAtDesc()/findByRequesterIdOrderByCreatedAtDesc()
+  // 사용.
 }

@@ -46,9 +46,10 @@ public class SecurityConfig {
                         HttpMethod.POST, "/api/members", "/api/auth/login", "/api/auth/reissue")
                     .permitAll()
                     // 조회는 손님도 가능.
-                    .requestMatchers(HttpMethod.GET, "/api/studies", "/api/studies/*")
+                    .requestMatchers(
+                        HttpMethod.GET, "/api/books", "/api/books/*", "/api/books/ranking")
                     .permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/studies/*/reviews", "/api/members/*")
+                    .requestMatchers(HttpMethod.GET, "/api/members/*")
                     .permitAll()
                     // 나머지는 인증 필요.
                     .anyRequest()
