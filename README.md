@@ -45,3 +45,4 @@
 
 **참고**
 - [스켈레톤 안내](SKELETON.md), [스켈레톤 API 문서](docs/skeleton/api.md), [스켈레톤 기능 문서](docs/skeleton/functions.md)
+- [스켈레톤 재활용 가이드](docs/13_스켈레톤_재활용가이드.md) — 뭘 그대로 쓰고, 뭘 이름만 바꾸고, 뭘 새로 짜야 하는지
