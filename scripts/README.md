@@ -46,6 +46,54 @@ docker compose up -d db cache   # db(localhost:3307), cache(localhost:6380)만 �
 
 `application.yml`이 이미 이 포트로 맞춰져 있어서 별도 설정 없이 바로 됩니다. 전체를 도커 이미지로 최종 확인할 때만 `docker compose up -d --build` 사용.
 
+## 세팅 완료 확인
+
+아래 3가지가 이 문구 그대로 나오면 세팅 성공. 팀 채팅에 캡처 공유할 때 이 기준으로 확인하면 됨.
+
+**1. `docker compose ps`**
+
+```
+NAME          STATUS
+app-db-1      Up ... (healthy)
+app-cache-1   Up ... (healthy)
+```
+
+`(healthy)`가 둘 다 떠야 함. `(health: starting)`이면 몇 초 더 기다리기.
+
+**2. 앱 실행 로그** (터미널 또는 IDE 콘솔)
+
+```
+Started StudyAppApplication in X.XXX seconds (process running for X.XXX)
+```
+
+이 줄이 뜨면 DB·Redis 연결 성공. 안 뜨고 `BUILD FAILED`, `Access denied`, `Connection refused` 같은 게 뜨면 실패.
+
+**3. 헬스체크**
+
+```bash
+curl http://localhost:8090/actuator/health
+```
+
+```json
+{"status":"UP"}
+```
+
+브라우저로 `http://localhost:8090/actuator/health` 열어봐도 됨. `DOWN`이거나 응답이 없으면 실패.
+
+**(선택) 테이블 자동 생성 확인**
+
+```bash
+docker exec -it app-db-1 mysql -uhunchaekbang -phunchaekbang1234 hunchaekbang -e "SHOW TABLES;"
+```
+
+```
+book
+exchange_request
+member
+```
+
+이것까지 나오면 엔티티(`Book`/`ExchangeRequest`)도 제대로 반영된 것까지 확인 끝.
+
 ## 사전 준비 (한 번만)
 
 - [GitHub CLI](https://cli.github.com) 설치
