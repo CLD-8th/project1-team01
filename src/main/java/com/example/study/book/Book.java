@@ -66,6 +66,10 @@ public class Book {
 
   private LocalDateTime updatedAt;
 
+  // 상세 조회수. 인기 랭킹 가중치 계산에만 씀(04_Redis키설계.md "향후 확장" 참고) — 화면에 직접 노출하진 않음.
+  @Column(nullable = false)
+  private long viewCount;
+
   public Book(
       String title,
       String author,
@@ -99,5 +103,10 @@ public class Book {
 
   public boolean isTrading() {
     return this.status == BookStatus.TRADING;
+  }
+
+  /** 상세 조회 1회당 호출. */
+  public void increaseViewCount() {
+    this.viewCount++;
   }
 }

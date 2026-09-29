@@ -2,8 +2,10 @@ package com.example.study.book;
 
 import com.example.study.book.dto.BookRankingResponse;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p>랭킹 점수 자체는 여기서 올리지 않음 — 거래 요청이 발생할 때(4번 API 담당) {@code book:ranking}에 점수가 쌓임. 이 계층은 조회만 함(읽기
  * 전용). 키 설계는 {@code docs/04_Redis키설계.md} 참고.
+ *
+ * <p>거래 요청이 한 번도 없던 책은 대상에서 제외(요청수가 기본 기준). 그 안에서만 조회수를 보조 신호로 섞어 순서를 재조정함 — 계산은 {@link
+ * RankingScoreCalculator} 참고.
  */
 @RestController
 @RequestMapping("/api/books")
@@ -30,32 +35,46 @@ public class RankingController {
 
   private final StringRedisTemplate redisTemplate;
   private final BookRepository bookRepository;
+  private final RankingScoreCalculator scoreCalculator;
+
+  private record Candidate(Book book, long requestCount, double score) {}
 
   @GetMapping("/ranking")
   public List<BookRankingResponse> ranking() {
-    Set<TypedTuple<String>> topEntries =
-        redisTemplate.opsForZSet().reverseRangeWithScores(RANKING_KEY, 0, TOP_N - 1);
-    if (topEntries == null || topEntries.isEmpty()) {
+    // 요청수 기준 후보 전체를 가져와서(수량이 적으니 전체 스캔해도 무방) 조회수까지 섞은 점수로 다시 정렬함.
+    Set<TypedTuple<String>> entries =
+        redisTemplate.opsForZSet().reverseRangeWithScores(RANKING_KEY, 0, -1);
+    if (entries == null || entries.isEmpty()) {
       return List.of();
     }
 
-    List<Long> bookIds = topEntries.stream().map(entry -> Long.valueOf(entry.getValue())).toList();
-
-    // Redis가 준 순위 순서를 유지해야 함 — JpaRepository.findAllById()는 순서를 보장하지 않으므로
-    // 식별자로 찾아 다시 순서대로 나열함.
     Map<Long, Book> booksById =
-        bookRepository.findAllById(bookIds).stream()
+        bookRepository
+            .findAllById(entries.stream().map(entry -> Long.valueOf(entry.getValue())).toList())
+            .stream()
             .collect(Collectors.toMap(Book::getId, Function.identity()));
 
+    List<Candidate> ranked =
+        entries.stream()
+            .map(entry -> toCandidate(entry, booksById))
+            .filter(Objects::nonNull)
+            .sorted(Comparator.comparingDouble(Candidate::score).reversed())
+            .limit(TOP_N)
+            .toList();
+
     List<BookRankingResponse> result = new ArrayList<>();
-    int rank = 1;
-    for (TypedTuple<String> entry : topEntries) {
-      Book book = booksById.get(Long.valueOf(entry.getValue()));
-      if (book == null) continue;
-      long requestCount = entry.getScore() == null ? 0 : entry.getScore().longValue();
-      result.add(BookRankingResponse.from(book, rank, requestCount));
-      rank++;
+    for (int i = 0; i < ranked.size(); i++) {
+      Candidate candidate = ranked.get(i);
+      result.add(BookRankingResponse.from(candidate.book(), i + 1, candidate.requestCount()));
     }
     return result;
+  }
+
+  private Candidate toCandidate(TypedTuple<String> entry, Map<Long, Book> booksById) {
+    Book book = booksById.get(Long.valueOf(entry.getValue()));
+    if (book == null) return null;
+    long requestCount = entry.getScore() == null ? 0 : entry.getScore().longValue();
+    double score = scoreCalculator.calculate(requestCount, book.getViewCount());
+    return new Candidate(book, requestCount, score);
   }
 }

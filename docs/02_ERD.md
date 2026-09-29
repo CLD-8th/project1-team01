@@ -44,6 +44,7 @@ erDiagram
         boolean accepts_giveaway "나눔 가능 (참고용)"
         datetime created_at
         datetime updated_at
+        bigint view_count "인기 랭킹 가중치 계산용, 화면 노출 안 함"
     }
 
     EXCHANGE_REQUEST {
