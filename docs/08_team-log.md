@@ -15,3 +15,8 @@
 - 도메인·기능 정의서, ERD, URL/API 목록(11개), Redis 키 설계(랭킹·동시 수락 방지 락) 작성해 repo에 push(PR #1~#10). 팀 Notion 내용과 교차 확인해 일치시킴.
 - repo 정리: 테스트 파일 삭제, README를 이 repo 기준으로 재작성, main 브랜치 보호(PR 필수·CI 통과 필수, approve는 불필요·본인 merge 가능) 설정, 머지된 브랜치 정리.
 - `study-app-skeleton` 병합(PR #14) — 인증·회원·공통설정·Dockerfile 재사용 예정, `study`/`application`/`review` 도메인 코드는 `book`/`exchange_request`로 교체 필요. `build.gradle`에 Redis 의존성 없어서 구현 시작할 때 추가해야 함.
+
+## 2026-09-29
+
+- 스켈레톤 재활용 가이드 작성(`13_스켈레톤_재활용가이드.md`) — Service·Controller는 전부 `TODO` 빈 껍데기라 참고만 하고 새로 작성, `StudyPost`→`Book`·`Application`→`ExchangeRequest`는 구조·필드명 거의 그대로 재사용 가능, `review` 패키지·스터디 화면(`static/study.html` 등)·`db/schema.sql`은 삭제 대상으로 정리.
+- 화면 구현 기준 확정: Figma 와이어프레임대로 만들면 제일 좋지만, 시간 부족하면 최대한 비슷하게만 만들어도 됨 — 평가 기준은 화면 완성도가 아니라 기능 동작 여부.
