@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>헌책방</title>
+    <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="header">
+    <div class="header-inner">
+        <a class="logo" href="/index.html">
+            <img src="/img/logo.svg" alt="">
+            <span>헌책방</span>
+        </a>
+        <div class="header-menu" id="header-menu"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="keyword" placeholder="책 제목, 저자 검색">
+        </div>
+
+        <div class="chip-row" id="status-filter" style="margin-bottom: 14px;">
+            <button class="active" data-status="">전체</button>
+            <button data-status="TRADING">거래중</button>
+            <button data-status="COMPLETED">거래완료</button>
+            <button data-status="RANKING">인기순위</button>
+        </div>
+
+        <div class="list-head">
+            <span id="total-count"></span>
+        </div>
+        <div class="book-grid" id="book-grid"></div>
+        <div class="empty hidden" id="book-empty">등록된 책이 없어요</div>
+        <div class="pager" id="pager"></div>
+    </div>
+</div>
+<div class="footer">&copy; 펩시미만잡 2026 헌책방</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/book-list.js"></script>
+</body>
+</html>

@@ -20,3 +20,11 @@
 
 - 스켈레톤 재활용 가이드 작성(`13_스켈레톤_재활용가이드.md`) — Service·Controller는 전부 `TODO` 빈 껍데기라 참고만 하고 새로 작성, `StudyPost`→`Book`·`Application`→`ExchangeRequest`는 구조·필드명 거의 그대로 재사용 가능, `review` 패키지·스터디 화면(`static/study.html` 등)·`db/schema.sql`은 삭제 대상으로 정리.
 - 화면 구현 기준 확정: Figma 와이어프레임대로 만들면 제일 좋지만, 시간 부족하면 최대한 비슷하게만 만들어도 됨 — 평가 기준은 화면 완성도가 아니라 기능 동작 여부.
+- 강사님 지시: ERD대로 엔티티 공통 push 후 각자 개발, 화면 제거하고 backend API만 진행. 오늘 17:00까지 개발·merge·이미지 생성, 이후 추가사항은 개별 PR로. 내일은 이미지로 컨테이너화 동작 확인 후 바로 AWS 설계 착수.
+- `Book`(←StudyPost)·`ExchangeRequest`(←Application) 엔티티·리포지토리 구현해 공통 push(PR #25) — `review` 패키지·스터디 전용 화면 10개·`db/schema.sql`·`sample.sql` 삭제, `SecurityConfig`·`ErrorCode` 도메인에 맞게 수정. 로컬에서 `docker compose up --build` 후 `book`/`exchange_request`/`member` 테이블만 깨끗하게 생성되는 것까지 확인.
+- Gradle wrapper 버전 문제(8.10→8.14.2, Spring Boot 4.1 플러그인 최소요구), `application.yml` 자격증명 불일치, `compose.yaml` 호스트 포트 매핑 누락(db/cache를 IDE에서 직접 못 붙던 문제) 등 인프라 버그 다수 발견·수정(PR #17, #21, #23) — 상세는 `09_트러블슈팅.md`.
+- 기능 구현 가이드(`14_기능구현가이드.md`) 작성 — 브랜치별 담당 컨트롤러·DB 메서드·구현 순서 상세 기술.
+- API 11번(인기 도서 랭킹 조회) 구현·merge(PR #30) — Redis 랭킹 점수 증가·동시 수락 방지 락은 문병현이 4·8번 API 안에서 직접 구현하는 걸로 역할분담표 수정(`06_역할분담표.md`).
+- 홍정민 1·2번(도서 목록·상세) 구현·merge(PR #31).
+- 진행 체크리스트(`15_진행체크리스트.md`) 신설 — API별 진행 상태·오늘/내일 일정 실시간 추적.
+- 팀원 개발환경 트러블슈팅 지원(Windows Docker/gh 설치 PATH 문제, `gh auth login` 권한 문제 등) — `09_트러블슈팅.md`에 기록.

@@ -1,14 +1,15 @@
 package com.example.study.book;
 
 import com.example.study.book.dto.BookRankingResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,12 +33,13 @@ public class RankingController {
 
   @GetMapping("/ranking")
   public List<BookRankingResponse> ranking() {
-    Set<String> topIds = redisTemplate.opsForZSet().reverseRange(RANKING_KEY, 0, TOP_N - 1);
-    if (topIds == null || topIds.isEmpty()) {
+    Set<TypedTuple<String>> topEntries =
+        redisTemplate.opsForZSet().reverseRangeWithScores(RANKING_KEY, 0, TOP_N - 1);
+    if (topEntries == null || topEntries.isEmpty()) {
       return List.of();
     }
 
-    List<Long> bookIds = topIds.stream().map(Long::valueOf).toList();
+    List<Long> bookIds = topEntries.stream().map(entry -> Long.valueOf(entry.getValue())).toList();
 
     // Redis가 준 순위 순서를 유지해야 함 — JpaRepository.findAllById()는 순서를 보장하지 않으므로
     // 식별자로 찾아 다시 순서대로 나열함.
@@ -45,10 +47,15 @@ public class RankingController {
         bookRepository.findAllById(bookIds).stream()
             .collect(Collectors.toMap(Book::getId, Function.identity()));
 
-    return bookIds.stream()
-        .map(booksById::get)
-        .filter(Objects::nonNull)
-        .map(BookRankingResponse::from)
-        .toList();
+    List<BookRankingResponse> result = new ArrayList<>();
+    int rank = 1;
+    for (TypedTuple<String> entry : topEntries) {
+      Book book = booksById.get(Long.valueOf(entry.getValue()));
+      if (book == null) continue;
+      long requestCount = entry.getScore() == null ? 0 : entry.getScore().longValue();
+      result.add(BookRankingResponse.from(book, rank, requestCount));
+      rank++;
+    }
+    return result;
   }
 }
