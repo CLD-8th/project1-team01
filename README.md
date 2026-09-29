@@ -53,6 +53,8 @@ curl -X POST http://localhost:8090/api/auth/login -H "Content-Type: application/
 
 ## 문서
 
+> [docs/ 폴더 목차](docs/README.md) — 카테고리별로 정리된 인덱스. 아래는 그 요약.
+
 **정의**
 - [주제 제출](docs/00_주제제출.md)
 - [도메인·기능 정의서](docs/01_도메인기능정의서.md)
