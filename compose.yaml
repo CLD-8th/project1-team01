@@ -47,6 +47,12 @@ services:
       STUDY_JWT_REFRESH_EXPIRE_DAYS: 7
     volumes:
       - uploads:/app/uploads # 사진 업로드 기능 붙기 전까지는 안 쓰여도 무방
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8090/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
     depends_on:
       db:
         condition: service_healthy

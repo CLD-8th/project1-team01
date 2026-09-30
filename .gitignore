@@ -15,6 +15,7 @@ out/
 
 ### VS Code ###
 .vscode/
+bin/
 
 ### 환경 변수 ###
 .env
